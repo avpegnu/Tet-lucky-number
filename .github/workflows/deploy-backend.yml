@@ -1,0 +1,56 @@
+name: Deploy Backend to Server
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into server & deploy backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            echo "==> Deploying BACKEND..."
+
+            cd /home/ubuntu/vanh/Tet-lucky-number
+
+            # Wait for lock (avoid race condition with other deployments)
+            LOCKFILE="/tmp/lucky-money-deploy.lock"
+            while [ -f "$LOCKFILE" ]; do
+              echo "Waiting for other deployment to finish..."
+              sleep 5
+            done
+            touch "$LOCKFILE"
+            trap "rm -f $LOCKFILE" EXIT
+
+            # Backup .env files truoc khi reset
+            cp backend/.env /tmp/backend.env.backup 2>/dev/null || true
+            cp frontend/.env /tmp/frontend.env.backup 2>/dev/null || true
+
+            # Fetch & reset ve main
+            git fetch --all --prune
+            git checkout main
+            git reset --hard origin/main
+
+            # Restore .env files sau khi reset
+            mv /tmp/backend.env.backup backend/.env 2>/dev/null || true
+            mv /tmp/frontend.env.backup frontend/.env 2>/dev/null || true
+
+            # Build & deploy backend
+            cd backend
+            npm install -f
+            npm run build
+
+            cd ..
+            pm2 reload lucky-money-backend || pm2 start ecosystem.config.js --only lucky-money-backend --env production
+            pm2 save
