@@ -8,6 +8,7 @@ export enum UserRole {
   LOVER = 'LOVER',
   FRIEND = 'FRIEND',
   COLLEAGUE = 'COLLEAGUE',
+  FAMILY = 'FAMILY',
 }
 
 export enum LuckyMoneyStatus {

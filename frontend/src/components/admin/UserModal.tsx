@@ -103,6 +103,9 @@ export const UserModal = ({
                   <option value="COLLEAGUE" className="bg-red-800">
                     COLLEAGUE
                   </option>
+                  <option value="FAMILY" className="bg-red-800">
+                    FAMILY
+                  </option>
                 </select>
               </div>
 

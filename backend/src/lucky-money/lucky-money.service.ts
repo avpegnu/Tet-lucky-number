@@ -65,6 +65,16 @@ export class LuckyMoneyService {
           secondaryColor: '#991b1b',
         },
       },
+      [UserRole.FAMILY]: {
+        role: UserRole.FAMILY,
+        message:
+          '🏡 Chúc cả gia đình một năm mới sum vầy, hạnh phúc và bình an! Nhận lì xì nè! 🧧',
+        theme: {
+          background: 'linear-gradient(135deg, #4a1942 0%, #2d1b69 100%)',
+          primaryColor: '#a855f7',
+          secondaryColor: '#7c3aed',
+        },
+      },
     };
 
     return greetingConfigs[user.role];

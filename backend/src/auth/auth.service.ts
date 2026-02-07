@@ -11,7 +11,7 @@ export interface JwtPayload {
   sub: string; // User ID
   username: string;
   role: 'admin' | 'user';
-  userRole?: string; // For users: LOVER, FRIEND, COLLEAGUE
+  userRole?: string; // For users: LOVER, FRIEND, COLLEAGUE, FAMILY
 }
 
 @Injectable()

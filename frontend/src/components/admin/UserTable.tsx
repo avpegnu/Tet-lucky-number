@@ -187,6 +187,8 @@ export const UserTable = ({ users, onEdit, onDelete }: UserTableProps) => {
                       ? "bg-pink-500 text-white"
                       : user.role === "FRIEND"
                       ? "bg-blue-500 text-white"
+                      : user.role === "FAMILY"
+                      ? "bg-purple-500 text-white"
                       : "bg-green-500 text-white"
                   }`}
                 >
