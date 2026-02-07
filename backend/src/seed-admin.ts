@@ -5,7 +5,8 @@ async function seedAdmin() {
   try {
     // Connect to MongoDB
     const MONGODB_URI =
-      process.env.MONGODB_URI || 'mongodb+srv://vietanh142004:Matkhau1234%40@cluster0.eikmqxo.mongodb.net/lucky-money';
+      process.env.MONGODB_URI ||
+      'mongodb+srv://vietanh142004:Matkhau1234%40@cluster0.eikmqxo.mongodb.net/lucky-money';
     await connect(MONGODB_URI);
     console.log('✅ Connected to MongoDB');
 

@@ -197,12 +197,12 @@ export const UserTable = ({ users, onEdit, onDelete }: UserTableProps) => {
               </div>
               <span
                 className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  user.hasDrawn
+                  user.luckyMoneyStatus === "PLAYED"
                     ? "bg-green-500/20 text-green-300 border border-green-500/50"
                     : "bg-yellow-500/20 text-yellow-300 border border-yellow-500/50"
                 }`}
               >
-                {user.hasDrawn ? "✅ Đã chơi" : "⏳ Chưa chơi"}
+                {user.luckyMoneyStatus === "PLAYED" ? "✅ Đã chơi" : "⏳ Chưa chơi"}
               </span>
             </div>
 
