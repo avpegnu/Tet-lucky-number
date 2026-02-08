@@ -187,7 +187,8 @@ const BackgroundMusic = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button onClick={playPrev} className="text-amber-200/70 hover:text-amber-200 transition p-1" title="Bài trước">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M9.195 18.44c1.25.714 2.805-.189 2.805-1.629v-2.34l6.945 3.968c1.25.715 2.805-.188 2.805-1.628V7.19c0-1.44-1.555-2.343-2.805-1.628L12 9.53v-2.34c0-1.44-1.555-2.343-2.805-1.628l-7.108 4.061c-1.26.72-1.26 2.536 0 3.256l7.108 4.061z" />
+              <rect x="4" y="6" width="2.5" height="12" rx="0.5" />
+              <path d="M19 6.5a1 1 0 00-1.5-.86l-10 5.5a1 1 0 000 1.72l10 5.5A1 1 0 0019 17.5v-11z" />
             </svg>
           </button>
 
@@ -209,7 +210,8 @@ const BackgroundMusic = () => {
 
           <button onClick={playNext} className="text-amber-200/70 hover:text-amber-200 transition p-1" title="Bài tiếp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-              <path d="M5.055 7.06C3.805 6.347 2.25 7.25 2.25 8.69v6.62c0 1.44 1.555 2.343 2.805 1.628L12 12.97v2.34c0 1.44 1.555 2.343 2.805 1.628l7.108-4.061c1.26-.72 1.26-2.536 0-3.256l-7.108-4.06C13.555 4.715 12 5.617 12 7.058v2.34L5.055 5.44z" />
+              <rect x="17.5" y="6" width="2.5" height="12" rx="0.5" />
+              <path d="M5 6.5a1 1 0 011.5-.86l10 5.5a1 1 0 010 1.72l-10 5.5A1 1 0 015 17.5v-11z" />
             </svg>
           </button>
         </div>
