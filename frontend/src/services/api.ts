@@ -2,6 +2,12 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
+// Allow setting a navigate function from React Router (called from App.tsx)
+let navigateFn: ((path: string) => void) | null = null;
+export const setNavigate = (fn: (path: string) => void) => {
+  navigateFn = fn;
+};
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -46,8 +52,13 @@ api.interceptors.response.use(
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
 
-      // Redirect to login
-      window.location.href = isAdmin ? "/admin/login" : "/user/login";
+      // Redirect to login (use React Router navigate to avoid full page reload)
+      const loginPath = isAdmin ? "/admin/login" : "/user/login";
+      if (navigateFn) {
+        navigateFn(loginPath);
+      } else {
+        window.location.href = loginPath;
+      }
     }
     return Promise.reject(error);
   },

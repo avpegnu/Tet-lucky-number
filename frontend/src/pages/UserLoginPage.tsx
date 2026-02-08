@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { authAPI } from "../services/api";
@@ -248,12 +248,12 @@ const UserLoginPage = () => {
           <div className="mt-8 text-center">
             <p className="text-gray-600 text-sm">
               Bạn là quản trị viên?{" "}
-              <a
-                href="/admin/login"
+              <Link
+                to="/admin/login"
                 className="text-red-600 hover:text-red-700 font-semibold underline"
               >
                 Đăng nhập Admin 🔑
-              </a>
+              </Link>
             </p>
           </div>
 

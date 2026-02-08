@@ -1,11 +1,20 @@
 import type { ReactNode } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import { useEffect } from "react";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
+import { setNavigate } from "./services/api";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminRegisterPage from "./pages/AdminRegisterPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserGameFlow from "./pages/UserGameFlow";
+import BackgroundMusic from "./components/shared/BackgroundMusic";
 import "./index.css";
 
 // Protected route component
@@ -60,6 +69,15 @@ const LoginRoute = ({
 
   return <>{children}</>;
 };
+
+// Bridge to inject React Router navigate into api.ts (outside React)
+function NavigateSetter() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate]);
+  return null;
+}
 
 function AppRoutes() {
   return (
@@ -123,6 +141,8 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <NavigateSetter />
+        <BackgroundMusic />
         <AppRoutes />
       </BrowserRouter>
     </AuthProvider>
