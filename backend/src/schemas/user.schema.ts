@@ -32,6 +32,9 @@ export class User {
   @Prop({ required: true, unique: true, type: String })
   username: string;
 
+  @Prop({ type: String, default: null })
+  name: string | null;
+
   @Prop({ required: true, type: String })
   password: string; // Will be hashed using bcrypt
 
@@ -57,6 +60,9 @@ export class User {
 
   @Prop({ type: BankInfo, default: null })
   bankInfo: BankInfo | null;
+
+  @Prop({ type: String, default: null })
+  customGreeting: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

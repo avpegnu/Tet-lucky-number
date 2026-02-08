@@ -50,13 +50,18 @@ api.interceptors.response.use(
       window.location.href = isAdmin ? "/admin/login" : "/user/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // Auth APIs
 export const authAPI = {
   adminLogin: (credentials: { username: string; password: string }) =>
     api.post("/auth/admin/login", credentials),
+  adminRegister: (data: {
+    username: string;
+    password: string;
+    name?: string;
+  }) => api.post("/auth/admin/register", data),
   userLogin: (credentials: { username: string; password: string }) =>
     api.post("/auth/user/login", credentials),
 };
@@ -68,10 +73,18 @@ export const adminAPI = {
     password: string;
     role: string;
     availableAmounts: number[];
+    name?: string;
+    customGreeting?: string;
   }) => api.post("/admin/users", data),
   updateUser: (
     id: string,
-    data: { password?: string; role?: string; availableAmounts?: number[] }
+    data: {
+      password?: string;
+      role?: string;
+      availableAmounts?: number[];
+      name?: string;
+      customGreeting?: string;
+    },
   ) => api.put(`/admin/users/${id}`, data),
   deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
   getUsers: () => api.get("/admin/users"),

@@ -6,9 +6,11 @@ import { authAPI } from "../services/api";
 import { FloatingLanterns } from "../components/shared/FloatingLanterns";
 import { generateRandomPositions } from "../utils/randomPositions";
 
-const AdminLoginPage = () => {
+const AdminRegisterPage = () => {
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -19,10 +21,25 @@ const AdminLoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (password !== confirmPassword) {
+      setError("Mật khẩu xác nhận không khớp.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await authAPI.adminLogin({ username, password });
+      const response = await authAPI.adminRegister({
+        username,
+        password,
+        name: name || undefined,
+      });
       const { access_token, user } = response.data;
 
       login(access_token, user);
@@ -37,7 +54,7 @@ const AdminLoginPage = () => {
               ?.data?.message
           : undefined;
       setError(
-        errorMessage || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin."
+        errorMessage || "Đăng ký thất bại. Vui lòng thử lại."
       );
       setLoading(false);
     }
@@ -111,12 +128,14 @@ const AdminLoginPage = () => {
               transition={{ delay: 0.3 }}
               className="text-4xl font-bold bg-gradient-to-r from-red-600 to-yellow-600 bg-clip-text text-transparent mb-2 pb-1"
             >
-              Cổng Quản Trị
+              Đăng Ký Admin
             </motion.h1>
-            <p className="text-gray-600 font-semibold">Quản lý Lì Xì Tết 🧧</p>
+            <p className="text-gray-600 font-semibold">
+              Tạo tài khoản quản lý Lì Xì Tết 🧧
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -126,6 +145,23 @@ const AdminLoginPage = () => {
                 ❌ {error}
               </motion.div>
             )}
+
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                📛 Tên hiển thị
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all"
+                placeholder="Nhập tên của bạn"
+              />
+            </div>
 
             <div>
               <label
@@ -158,7 +194,25 @@ const AdminLoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all"
-                placeholder="Nhập mật khẩu"
+                placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                🔐 Xác nhận mật khẩu
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all"
+                placeholder="Nhập lại mật khẩu"
                 required
               />
             </div>
@@ -174,29 +228,20 @@ const AdminLoginPage = () => {
               className="w-full bg-gradient-to-r from-red-600 via-red-500 to-yellow-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
             >
               <span className="relative z-10">
-                {loading ? "⏳ Đang đăng nhập..." : "🚀 Đăng nhập"}
+                {loading ? "⏳ Đang đăng ký..." : "🚀 Đăng ký"}
               </span>
               <motion.div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.button>
           </form>
 
-          <div className="mt-8 text-center space-y-2">
+          <div className="mt-8 text-center">
             <p className="text-gray-600 text-sm">
-              Chưa có tài khoản?{" "}
+              Đã có tài khoản?{" "}
               <a
-                href="/admin/register"
+                href="/admin/login"
                 className="text-red-600 hover:text-red-700 font-semibold underline"
               >
-                Đăng ký ngay 🏮
-              </a>
-            </p>
-            <p className="text-gray-600 text-sm">
-              Bạn là người dùng?{" "}
-              <a
-                href="/user/login"
-                className="text-red-600 hover:text-red-700 font-semibold underline"
-              >
-                Đăng nhập tại đây 🎁
+                Đăng nhập tại đây 🏮
               </a>
             </p>
           </div>
@@ -223,4 +268,4 @@ const AdminLoginPage = () => {
   );
 };
 
-export default AdminLoginPage;
+export default AdminRegisterPage;

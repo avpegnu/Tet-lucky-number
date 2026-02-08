@@ -3,10 +3,23 @@ import type { FormEvent } from "react";
 
 interface FormData {
   username: string;
+  name: string;
   password: string;
   role: string;
   availableAmounts: string;
+  customGreeting: string;
 }
+
+const defaultGreetings: Record<string, string> = {
+  LOVER:
+    "💝 Chúc em một năm mới tràn ngập yêu thương và hạnh phúc! Nhận lì xì từ anh nhé! 💕",
+  FRIEND:
+    "🎉 Chúc mừng năm mới! Năm nay giàu to, vui vẻ hết nấc! 🥳 Nhận lì xì đi bạn êi!",
+  COLLEAGUE:
+    "🏮 Kính chúc quý đồng nghiệp một năm mới an khang, thịnh vượng và thành công! 🌟",
+  FAMILY:
+    "🏡 Chúc cả gia đình một năm mới sum vầy, hạnh phúc và bình an! Nhận lì xì nè! 🧧",
+};
 
 interface UserModalProps {
   showModal: boolean;
@@ -40,19 +53,19 @@ export const UserModal = ({
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="bg-gradient-to-br from-red-700 via-red-800 to-red-900 rounded-3xl shadow-2xl p-8 max-w-md w-full border-4 border-yellow-400/30 relative overflow-hidden"
+            className="bg-gradient-to-br from-red-700 via-red-800 to-red-900 rounded-3xl shadow-2xl p-8 max-w-md w-full border-4 border-yellow-400/30 relative overflow-hidden max-h-[90vh] overflow-y-auto"
           >
             {/* Decorative elements */}
             <div className="absolute top-2 right-2 text-3xl">🧧</div>
             <div className="absolute bottom-2 left-2 text-3xl">🏮</div>
 
-            <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent pb-1">
               {editingUser ? "✏️ Sửa người dùng" : "➕ Tạo người dùng mới"}
             </h2>
             <form onSubmit={onSubmit} className="space-y-4">
               <div>
                 <label className="block text-yellow-100 mb-2 font-semibold">
-                  Username
+                  Tên đăng nhập
                 </label>
                 <input
                   type="text"
@@ -61,7 +74,20 @@ export const UserModal = ({
                   className="w-full px-4 py-3 rounded-lg bg-white/10 border-2 border-yellow-400/30 focus:border-yellow-400 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 transition-all"
                   required
                   disabled={!!editingUser}
-                  placeholder="Nhập username..."
+                  placeholder="Nhập tên đăng nhập..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-yellow-100 mb-2 font-semibold">
+                  Tên
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => onChange("name", e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 border-2 border-yellow-400/30 focus:border-yellow-400 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 transition-all"
+                  placeholder="Nhập tên người dùng..."
                 />
               </div>
 
@@ -79,8 +105,8 @@ export const UserModal = ({
                   required={!editingUser}
                   placeholder={
                     editingUser
-                      ? "Nhập password mới (tùy chọn)..."
-                      : "Nhập password..."
+                      ? "Nhập mật khẩu mới (tùy chọn)..."
+                      : "Nhập mật khẩu..."
                   }
                 />
               </div>
@@ -107,6 +133,25 @@ export const UserModal = ({
                     FAMILY
                   </option>
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-yellow-100 mb-2 font-semibold">
+                  Lời chúc tùy chỉnh
+                </label>
+                <textarea
+                  value={formData.customGreeting}
+                  onChange={(e) => onChange("customGreeting", e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 border-2 border-yellow-400/30 focus:border-yellow-400 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 transition-all resize-none"
+                  rows={3}
+                  placeholder={
+                    defaultGreetings[formData.role] ||
+                    "Nhập lời chúc tùy chỉnh..."
+                  }
+                />
+                <p className="text-xs text-gray-300 mt-1">
+                  💡 Để trống để dùng lời chúc mặc định theo vai trò
+                </p>
               </div>
 
               <div>

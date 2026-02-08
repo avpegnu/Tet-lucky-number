@@ -44,7 +44,7 @@ export const ConfirmDialog = ({
                 ⚠️
               </div>
 
-              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent pb-1">
                 {title}
               </h2>
               <p className="text-yellow-100 mb-6 text-lg">{message}</p>

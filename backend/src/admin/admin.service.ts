@@ -15,12 +15,13 @@ export class AdminService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async createUser(adminId: string, createUserDto: CreateUserDto) {
-    const { username, password, role, availableAmounts } = createUserDto;
+    const { username, password, role, availableAmounts, name, customGreeting } =
+      createUserDto;
 
     // Check if username already exists
     const existingUser = await this.userModel.findOne({ username });
     if (existingUser) {
-      throw new ConflictException('Username already exists');
+      throw new ConflictException('Tên đăng nhập đã tồn tại');
     }
 
     // Hash password (class-validator ensures it's not empty)
@@ -28,10 +29,12 @@ export class AdminService {
 
     const newUser = new this.userModel({
       username,
+      name: name || null,
       password: hashedPassword,
       role,
       createdBy: adminId,
       availableAmounts,
+      customGreeting: customGreeting || null,
       luckyMoneyStatus: LuckyMoneyStatus.NOT_PLAYED,
     });
 
@@ -51,12 +54,19 @@ export class AdminService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     // Check ownership
     if (user.createdBy.toString() !== adminId) {
-      throw new ForbiddenException('You can only update users you created');
+      throw new ForbiddenException(
+        'Bạn chỉ có thể cập nhật người dùng do bạn tạo',
+      );
+    }
+
+    // Update name if provided
+    if (updateUserDto.name !== undefined) {
+      user.name = updateUserDto.name || null;
     }
 
     // Update password if provided
@@ -72,6 +82,11 @@ export class AdminService {
     // Update available amounts if provided
     if (updateUserDto.availableAmounts) {
       user.availableAmounts = updateUserDto.availableAmounts;
+    }
+
+    // Update customGreeting if provided (allow clearing by setting empty)
+    if (updateUserDto.customGreeting !== undefined) {
+      user.customGreeting = updateUserDto.customGreeting || null;
     }
 
     await user.save();
@@ -95,12 +110,14 @@ export class AdminService {
     const user = await this.userModel.findById(userId).select('-password');
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     // Check ownership
     if (user.createdBy.toString() !== adminId) {
-      throw new ForbiddenException('You can only view users you created');
+      throw new ForbiddenException(
+        'Bạn chỉ có thể xem người dùng do bạn tạo',
+      );
     }
 
     return user;
@@ -110,16 +127,18 @@ export class AdminService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     // Check ownership
     if (user.createdBy.toString() !== adminId) {
-      throw new ForbiddenException('You can only delete users you created');
+      throw new ForbiddenException(
+        'Bạn chỉ có thể xóa người dùng do bạn tạo',
+      );
     }
 
     await this.userModel.findByIdAndDelete(userId);
 
-    return { message: 'User deleted successfully' };
+    return { message: 'Xóa người dùng thành công' };
   }
 }

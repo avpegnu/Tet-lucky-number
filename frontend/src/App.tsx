@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminRegisterPage from "./pages/AdminRegisterPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserGameFlow from "./pages/UserGameFlow";
@@ -72,6 +73,14 @@ function AppRoutes() {
         element={
           <LoginRoute role="admin">
             <AdminLoginPage />
+          </LoginRoute>
+        }
+      />
+      <Route
+        path="/admin/register"
+        element={
+          <LoginRoute role="admin">
+            <AdminRegisterPage />
           </LoginRoute>
         }
       />

@@ -16,6 +16,7 @@ import { BankInfoDto } from './dto/bank-info.dto';
 export interface GreetingConfig {
   role: UserRole;
   message: string;
+  name?: string | null;
   theme: {
     background: string;
     primaryColor: string;
@@ -31,7 +32,7 @@ export class LuckyMoneyService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     const greetingConfigs: Record<UserRole, GreetingConfig> = {
@@ -77,18 +78,25 @@ export class LuckyMoneyService {
       },
     };
 
-    return greetingConfigs[user.role];
+    const config = { ...greetingConfigs[user.role], name: user.name };
+
+    // Override with custom greeting if set
+    if (user.customGreeting) {
+      config.message = user.customGreeting;
+    }
+
+    return config;
   }
 
   async drawLuckyMoney(userId: string) {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     if (user.luckyMoneyStatus === LuckyMoneyStatus.PLAYED) {
-      throw new BadRequestException('You have already played');
+      throw new BadRequestException('Bạn đã nhận lì xì rồi');
     }
 
     // Randomly select an amount from availableAmounts
@@ -112,11 +120,11 @@ export class LuckyMoneyService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     if (user.luckyMoneyStatus !== LuckyMoneyStatus.PLAYED) {
-      throw new BadRequestException('You must play the game first');
+      throw new BadRequestException('Vui lòng nhận lì xì trước');
     }
 
     user.bankInfo = {
@@ -127,7 +135,7 @@ export class LuckyMoneyService {
     await user.save();
 
     return {
-      message: 'Bank information submitted successfully',
+      message: 'Gửi thông tin ngân hàng thành công',
       bankInfo: user.bankInfo,
     };
   }
@@ -136,16 +144,18 @@ export class LuckyMoneyService {
     const user = await this.userModel.findById(userId).select('-password');
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Không tìm thấy người dùng');
     }
 
     return {
       username: user.username,
+      name: user.name,
       role: user.role,
       luckyMoneyStatus: user.luckyMoneyStatus,
       wonAmount: user.wonAmount,
       bankInfo: user.bankInfo,
       availableAmounts: user.availableAmounts,
+      customGreeting: user.customGreeting,
     };
   }
 }

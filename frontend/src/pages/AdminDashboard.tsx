@@ -11,11 +11,13 @@ import { generateRandomPositions } from "../utils/randomPositions";
 interface User {
   _id: string;
   username: string;
+  name?: string;
   role: string;
   luckyMoneyStatus: string;
   wonAmount: number;
   bankInfo: { bankName: string; accountNumber: string } | null;
   availableAmounts: number[];
+  customGreeting?: string;
 }
 
 const AdminDashboard = () => {
@@ -30,9 +32,11 @@ const AdminDashboard = () => {
   // Form state
   const [formData, setFormData] = useState({
     username: "",
+    name: "",
     password: "",
     role: "FRIEND",
     availableAmounts: "",
+    customGreeting: "",
   });
 
   useEffect(() => {
@@ -75,6 +79,8 @@ const AdminDashboard = () => {
         password: formData.password,
         role: formData.role,
         availableAmounts: amounts,
+        name: formData.name || undefined,
+        customGreeting: formData.customGreeting || undefined,
       });
       await fetchUsers();
       handleCloseModal();
@@ -103,9 +109,13 @@ const AdminDashboard = () => {
         availableAmounts: number[];
         password?: string;
         role?: string;
+        name?: string;
+        customGreeting?: string;
       } = {
         availableAmounts: amounts,
         role: formData.role,
+        name: formData.name || undefined,
+        customGreeting: formData.customGreeting || undefined,
       };
       if (formData.password) {
         updateData.password = formData.password;
@@ -145,17 +155,21 @@ const AdminDashboard = () => {
       setEditingUser(user);
       setFormData({
         username: user.username,
+        name: user.name || "",
         password: "",
         role: user.role,
         availableAmounts: user.availableAmounts?.join(", ") || "",
+        customGreeting: user.customGreeting || "",
       });
     } else {
       setEditingUser(null);
       setFormData({
         username: "",
+        name: "",
         password: "",
         role: "FRIEND",
         availableAmounts: "",
+        customGreeting: "",
       });
     }
     setShowModal(true);
@@ -166,9 +180,11 @@ const AdminDashboard = () => {
     setEditingUser(null);
     setFormData({
       username: "",
+      name: "",
       password: "",
       role: "FRIEND",
       availableAmounts: "",
+      customGreeting: "",
     });
   };
 
@@ -218,7 +234,7 @@ const AdminDashboard = () => {
         >
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 bg-clip-text text-transparent mb-2">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 bg-clip-text text-transparent mb-2 pb-1">
                 🏮 Admin Dashboard - Quản Lý Lì Xì Tết
               </h1>
               <p className="text-yellow-100/80 text-base sm:text-lg">

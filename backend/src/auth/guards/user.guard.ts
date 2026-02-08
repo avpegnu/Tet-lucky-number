@@ -16,7 +16,7 @@ export class UserGuard extends JwtAuthGuard implements CanActivate {
     const validatedUser = super.handleRequest(err, user, info);
 
     if (validatedUser.role !== 'user') {
-      throw new ForbiddenException('User access required');
+      throw new ForbiddenException('Yêu cầu quyền người dùng');
     }
 
     return validatedUser;

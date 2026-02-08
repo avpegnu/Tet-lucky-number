@@ -73,7 +73,7 @@ export const ThankYouScreen = ({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-600 to-yellow-500 bg-clip-text text-transparent mb-3 sm:mb-4"
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-600 to-yellow-500 bg-clip-text text-transparent mb-3 sm:mb-4 pb-1"
         >
           Hoàn tất!
         </motion.h1>
@@ -102,7 +102,7 @@ export const ThankYouScreen = ({
                 scale: [1, 1.05, 1],
               }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 bg-clip-text text-transparent pb-1"
             >
               {wonAmount.toLocaleString("vi-VN")} đ
             </motion.p>

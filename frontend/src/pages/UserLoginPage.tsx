@@ -141,7 +141,7 @@ const UserLoginPage = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-yellow-500 bg-clip-text text-transparent mb-2"
+              className="text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-yellow-500 bg-clip-text text-transparent mb-2 pb-1"
             >
               Nhận Lì Xì Tết
             </motion.h1>

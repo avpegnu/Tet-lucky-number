@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -6,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { Admin, AdminDocument } from '../schemas/admin.schema';
 import { User, UserDocument } from '../schemas/user.schema';
 import { LoginDto } from './dto/login.dto';
+import { RegisterAdminDto } from './dto/register-admin.dto';
 
 export interface JwtPayload {
   sub: string; // User ID
@@ -22,17 +27,52 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async registerAdmin(registerDto: RegisterAdminDto) {
+    const { username, password, name } = registerDto;
+
+    const existingAdmin = await this.adminModel.findOne({ username });
+    if (existingAdmin) {
+      throw new ConflictException('Tên đăng nhập đã tồn tại');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newAdmin = new this.adminModel({
+      username,
+      name: name || null,
+      password: hashedPassword,
+    });
+
+    await newAdmin.save();
+
+    const payload: JwtPayload = {
+      sub: newAdmin._id.toString(),
+      username: newAdmin.username,
+      role: 'admin',
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+      user: {
+        id: newAdmin._id,
+        username: newAdmin.username,
+        name: newAdmin.name,
+        role: 'admin',
+      },
+    };
+  }
+
   async adminLogin(loginDto: LoginDto) {
     const { username, password } = loginDto;
 
     const admin = await this.adminModel.findOne({ username });
     if (!admin) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Thông tin đăng nhập không hợp lệ');
     }
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Thông tin đăng nhập không hợp lệ');
     }
 
     const payload: JwtPayload = {
@@ -46,6 +86,7 @@ export class AuthService {
       user: {
         id: admin._id,
         username: admin.username,
+        name: admin.name,
         role: 'admin',
       },
     };
@@ -56,12 +97,12 @@ export class AuthService {
 
     const user = await this.userModel.findOne({ username });
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Thông tin đăng nhập không hợp lệ');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Thông tin đăng nhập không hợp lệ');
     }
 
     const payload: JwtPayload = {

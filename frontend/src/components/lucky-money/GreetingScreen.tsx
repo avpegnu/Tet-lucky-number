@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 interface GreetingConfig {
   role: string;
   message: string;
+  name?: string | null;
   theme: {
     background: string;
     primaryColor: string;
@@ -93,6 +94,17 @@ export const GreetingScreen = ({ config, onNext }: GreetingScreenProps) => (
     >
       🎊 Chúc Mừng Năm Mới! 🎊
     </motion.h1>
+
+    {config.name && (
+      <motion.p
+        initial={{ y: -10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="text-xl sm:text-2xl md:text-3xl text-yellow-200 font-semibold mb-4 drop-shadow-lg"
+      >
+        Xin chào, {config.name}! 🌸
+      </motion.p>
+    )}
 
     <motion.div
       initial={{ y: 20, opacity: 0 }}

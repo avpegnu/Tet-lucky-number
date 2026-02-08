@@ -15,6 +15,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   username: string;
 
+  @IsOptional()
+  @IsString()
+  name?: string;
+
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
@@ -28,9 +32,17 @@ export class CreateUserDto {
   @ArrayMinSize(1)
   @IsNumber({}, { each: true })
   availableAmounts: number[];
+
+  @IsOptional()
+  @IsString()
+  customGreeting?: string;
 }
 
 export class UpdateUserDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
   @IsOptional()
   @IsString()
   @IsNotEmpty()
@@ -46,4 +58,8 @@ export class UpdateUserDto {
   @ArrayMinSize(1)
   @IsNumber({}, { each: true })
   availableAmounts?: number[];
+
+  @IsOptional()
+  @IsString()
+  customGreeting?: string;
 }

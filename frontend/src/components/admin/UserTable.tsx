@@ -5,6 +5,7 @@ import { ConfirmDialog } from "../shared/ConfirmDialog";
 interface User {
   _id: string;
   username: string;
+  name?: string;
   role: string;
   luckyMoneyStatus: string;
   wonAmount: number;
@@ -55,7 +56,10 @@ export const UserTable = ({ users, onEdit, onDelete }: UserTableProps) => {
           <thead className="bg-gradient-to-r from-red-600/50 to-red-700/50">
             <tr>
               <th className="px-6 py-4 text-left text-sm font-bold text-yellow-200 uppercase tracking-wider">
-                Username
+                Tên
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-bold text-yellow-200 uppercase tracking-wider">
+                Tên đăng nhập
               </th>
               <th className="px-6 py-4 text-left text-sm font-bold text-yellow-200 uppercase tracking-wider">
                 Vai trò
@@ -88,6 +92,11 @@ export const UserTable = ({ users, onEdit, onDelete }: UserTableProps) => {
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-white">
+                    {user.name || <span className="text-gray-400">-</span>}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-white">
                     {user.username}
                   </div>
                 </td>
@@ -179,8 +188,11 @@ export const UserTable = ({ users, onEdit, onDelete }: UserTableProps) => {
             <div className="flex justify-between items-start mb-3">
               <div>
                 <h3 className="text-lg font-bold text-yellow-200">
-                  {user.username}
+                  {user.name || user.username}
                 </h3>
+                {user.name && (
+                  <p className="text-sm text-gray-300 mt-0.5">{user.username}</p>
+                )}
                 <span
                   className={`inline-block mt-1 px-2 py-1 text-xs rounded-full font-semibold ${
                     user.role === "LOVER"

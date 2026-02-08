@@ -150,7 +150,7 @@ export const DrawScreen = ({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-              className="text-7xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent mb-4"
+              className="text-7xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent mb-4 pb-1"
             >
               {wonAmount.toLocaleString("vi-VN")} đ
             </motion.h1>

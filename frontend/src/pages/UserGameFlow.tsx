@@ -13,6 +13,7 @@ import { FloatingLanterns } from "../components/shared/FloatingLanterns";
 interface GreetingConfig {
   role: string;
   message: string;
+  name?: string | null;
   theme: {
     background: string;
     primaryColor: string;
@@ -21,6 +22,7 @@ interface GreetingConfig {
 }
 
 interface UserStatus {
+  name?: string | null;
   luckyMoneyStatus: string;
   wonAmount: number;
   bankInfo: { bankName: string; accountNumber: string } | null;

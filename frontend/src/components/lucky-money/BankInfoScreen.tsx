@@ -80,7 +80,7 @@ export const BankInfoScreen = ({
               scale: [1, 1.05, 1],
             }}
             transition={{ duration: 1, repeat: Infinity }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 bg-clip-text text-transparent"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 bg-clip-text text-transparent pb-1"
           >
             {wonAmount.toLocaleString("vi-VN")} đ
           </motion.p>
