@@ -130,6 +130,7 @@ export class LuckyMoneyService {
     user.bankInfo = {
       bankName: bankInfoDto.bankName,
       accountNumber: bankInfoDto.accountNumber,
+      accountName: bankInfoDto.accountName || null,
     };
 
     await user.save();

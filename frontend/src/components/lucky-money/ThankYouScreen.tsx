@@ -5,6 +5,7 @@ import { generateRandomPositions } from "../../utils/randomPositions";
 interface BankInfo {
   bankName: string;
   accountNumber: string;
+  accountName?: string | null;
 }
 
 interface ThankYouScreenProps {
@@ -119,6 +120,11 @@ export const ThankYouScreen = ({
               <p className="text-gray-600 text-base sm:text-lg font-mono">
                 {bankInfo.accountNumber}
               </p>
+              {bankInfo.accountName && (
+                <p className="text-gray-500 text-sm sm:text-base mt-1">
+                  {bankInfo.accountName}
+                </p>
+              )}
             </div>
           </div>
         </motion.div>

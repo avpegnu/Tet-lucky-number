@@ -97,13 +97,65 @@ export class AdminService {
     return userWithoutPassword;
   }
 
-  async getUsersByAdmin(adminId: string) {
-    const users = await this.userModel
-      .find({ createdBy: adminId })
-      .select('-password')
-      .exec();
+  async getUsersByAdmin(
+    adminId: string,
+    options?: {
+      page?: number;
+      limit?: number;
+      search?: string;
+      role?: string;
+      status?: string;
+    },
+  ) {
+    const filter: Record<string, unknown> = { createdBy: adminId };
 
-    return users;
+    // Search by username or name
+    if (options?.search) {
+      const regex = new RegExp(options.search, 'i');
+      filter.$or = [{ username: regex }, { name: regex }];
+    }
+
+    // Filter by role
+    if (options?.role) {
+      filter.role = options.role;
+    }
+
+    // Filter by status
+    if (options?.status === 'PLAYED' || options?.status === 'NOT_PLAYED') {
+      filter.luckyMoneyStatus = options.status;
+    } else if (options?.status === 'TRANSFERRED') {
+      filter.luckyMoneyStatus = 'PLAYED';
+      filter.isTransferred = true;
+    } else if (options?.status === 'NOT_TRANSFERRED') {
+      filter.luckyMoneyStatus = 'PLAYED';
+      filter.isTransferred = { $ne: true };
+    }
+
+    const query = this.userModel
+      .find(filter)
+      .select('-password')
+      .sort({ createdAt: -1 });
+
+    if (options?.page && options?.limit) {
+      const skip = (options.page - 1) * options.limit;
+      const [users, total] = await Promise.all([
+        query.skip(skip).limit(options.limit).exec(),
+        this.userModel.countDocuments(filter),
+      ]);
+
+      return {
+        users,
+        pagination: {
+          page: options.page,
+          limit: options.limit,
+          total,
+          totalPages: Math.ceil(total / options.limit),
+        },
+      };
+    }
+
+    const users = await query.exec();
+    return { users, pagination: null };
   }
 
   async getUserById(adminId: string, userId: string) {
@@ -140,5 +192,50 @@ export class AdminService {
     await this.userModel.findByIdAndDelete(userId);
 
     return { message: 'Xóa người dùng thành công' };
+  }
+
+  async resetUserStatus(adminId: string, userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Không tìm thấy người dùng');
+    }
+
+    if (user.createdBy.toString() !== adminId) {
+      throw new ForbiddenException(
+        'Bạn chỉ có thể reset người dùng do bạn tạo',
+      );
+    }
+
+    user.luckyMoneyStatus = LuckyMoneyStatus.NOT_PLAYED;
+    user.wonAmount = 0;
+    user.bankInfo = null;
+    user.isTransferred = false;
+    await user.save();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...userWithoutPassword } = user.toObject();
+    return userWithoutPassword;
+  }
+
+  async toggleTransferred(adminId: string, userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('Không tìm thấy người dùng');
+    }
+
+    if (user.createdBy.toString() !== adminId) {
+      throw new ForbiddenException(
+        'Bạn chỉ có thể cập nhật người dùng do bạn tạo',
+      );
+    }
+
+    user.isTransferred = !user.isTransferred;
+    await user.save();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...userWithoutPassword } = user.toObject();
+    return userWithoutPassword;
   }
 }

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { authAPI } from "../services/api";
 import { FloatingLanterns } from "../components/shared/FloatingLanterns";
+import { FallingBlossoms } from "../components/shared/FallingBlossoms";
 import { generateRandomPositions } from "../utils/randomPositions";
 
 const UserLoginPage = () => {
@@ -83,7 +84,37 @@ const UserLoginPage = () => {
         >
           財
         </motion.div>
+        <motion.div
+          className="absolute top-20 left-10 text-8xl text-yellow-300/20 font-bold"
+          animate={{ rotate: [0, 5, -5, 0] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        >
+          福
+        </motion.div>
+        <motion.div
+          className="absolute bottom-20 left-16 text-7xl text-yellow-300/15 font-bold"
+          animate={{ rotate: [0, -3, 3, 0], scale: [1, 1.05, 1] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 2 }}
+        >
+          禄
+        </motion.div>
+        <motion.div
+          className="absolute bottom-24 right-10 text-8xl text-yellow-300/20 font-bold"
+          animate={{ rotate: [0, -5, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+        >
+          春
+        </motion.div>
+        <motion.div
+          className="absolute top-1/2 right-8 text-7xl text-yellow-300/15 font-bold"
+          animate={{ rotate: [0, 3, -3, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 6, repeat: Infinity, delay: 1.5 }}
+        >
+          喜
+        </motion.div>
       </div>
+
+      <FallingBlossoms />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

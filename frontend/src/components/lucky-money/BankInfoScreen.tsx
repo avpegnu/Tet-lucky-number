@@ -6,6 +6,7 @@ import { generateRandomPositions } from "../../utils/randomPositions";
 interface BankForm {
   bankName: string;
   accountNumber: string;
+  accountName: string;
 }
 
 interface BankInfoScreenProps {
@@ -119,6 +120,21 @@ export const BankInfoScreen = ({
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all"
               placeholder="Nhập số tài khoản"
               required
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              👤 Tên chủ tài khoản
+            </label>
+            <input
+              type="text"
+              value={bankForm.accountName}
+              onChange={(e) =>
+                setBankForm({ ...bankForm, accountName: e.target.value })
+              }
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all"
+              placeholder="NGUYEN VAN A"
             />
           </div>
 

@@ -9,7 +9,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     handleRequest(err, user, info) {
         if (err || !user) {
-            throw err || new UnauthorizedException('Unauthorized access');
+            throw err || new UnauthorizedException('Truy cập không được phép');
         }
         return user;
     }

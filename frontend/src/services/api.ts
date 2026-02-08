@@ -87,16 +87,36 @@ export const adminAPI = {
     },
   ) => api.put(`/admin/users/${id}`, data),
   deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
-  getUsers: () => api.get("/admin/users"),
+  getUsers: (options?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    role?: string;
+    status?: string;
+  }) => {
+    const params: Record<string, string> = {};
+    if (options?.page) params.page = String(options.page);
+    if (options?.limit) params.limit = String(options.limit);
+    if (options?.search) params.search = options.search;
+    if (options?.role) params.role = options.role;
+    if (options?.status) params.status = options.status;
+    return api.get("/admin/users", { params });
+  },
   getUserById: (id: string) => api.get(`/admin/users/${id}`),
+  resetUser: (id: string) => api.post(`/admin/users/${id}/reset`),
+  toggleTransferred: (id: string) =>
+    api.post(`/admin/users/${id}/toggle-transferred`),
 };
 
 // Lucky Money APIs
 export const luckyMoneyAPI = {
   getConfig: () => api.get("/lucky/config"),
   draw: () => api.post("/lucky/draw"),
-  submitBankInfo: (data: { bankName: string; accountNumber: string }) =>
-    api.post("/lucky/bank-info", data),
+  submitBankInfo: (data: {
+    bankName: string;
+    accountNumber: string;
+    accountName?: string;
+  }) => api.post("/lucky/bank-info", data),
   getStatus: () => api.get("/lucky/status"),
 };
 

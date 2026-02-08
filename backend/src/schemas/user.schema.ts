@@ -23,6 +23,9 @@ export class BankInfo {
 
   @Prop({ required: true })
   accountNumber: string;
+
+  @Prop({ type: String, default: null })
+  accountName: string | null;
 }
 
 export const BankInfoSchema = SchemaFactory.createForClass(BankInfo);
@@ -63,6 +66,9 @@ export class User {
 
   @Prop({ type: String, default: null })
   customGreeting: string | null;
+
+  @Prop({ type: Boolean, default: false })
+  isTransferred: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

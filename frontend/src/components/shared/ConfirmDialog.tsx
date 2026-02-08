@@ -8,7 +8,7 @@ interface ConfirmDialogProps {
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
-  confirmColor?: "red" | "yellow";
+  confirmColor?: "red" | "yellow" | "blue";
 }
 
 export const ConfirmDialog = ({
@@ -65,6 +65,8 @@ export const ConfirmDialog = ({
                   className={`flex-1 px-6 py-3 rounded-lg font-bold transition-all shadow-lg ${
                     confirmColor === "red"
                       ? "bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-400 hover:to-red-500"
+                      : confirmColor === "blue"
+                      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-400 hover:to-blue-500"
                       : "bg-gradient-to-r from-yellow-400 to-yellow-500 text-red-900 hover:from-yellow-300 hover:to-yellow-400"
                   }`}
                 >

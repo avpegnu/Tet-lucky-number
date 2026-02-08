@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { authAPI } from "../services/api";
 import { FloatingLanterns } from "../components/shared/FloatingLanterns";
+import { FallingBlossoms } from "../components/shared/FallingBlossoms";
 import { generateRandomPositions } from "../utils/randomPositions";
 
 const AdminLoginPage = () => {
@@ -37,7 +38,7 @@ const AdminLoginPage = () => {
               ?.data?.message
           : undefined;
       setError(
-        errorMessage || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin."
+        errorMessage || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
       );
       setLoading(false);
     }
@@ -72,6 +73,7 @@ const AdminLoginPage = () => {
           </motion.div>
         ))}
 
+        {/* Left side decorations */}
         <motion.div
           className="absolute top-20 left-10 text-8xl text-yellow-400/20 font-bold"
           animate={{ rotate: [0, 5, -5, 0] }}
@@ -80,19 +82,45 @@ const AdminLoginPage = () => {
           福
         </motion.div>
         <motion.div
+          className="absolute bottom-40 left-16 text-7xl text-yellow-400/15 font-bold"
+          animate={{ rotate: [0, -3, 3, 0], scale: [1, 1.05, 1] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 2 }}
+        >
+          禄
+        </motion.div>
+
+        {/* Right side decorations */}
+        <motion.div
+          className="absolute top-16 right-16 text-8xl text-yellow-400/20 font-bold"
+          animate={{ rotate: [0, -5, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
+        >
+          寿
+        </motion.div>
+        <motion.div
           className="absolute bottom-20 right-10 text-8xl text-yellow-400/20 font-bold"
           animate={{ rotate: [0, -5, 5, 0] }}
           transition={{ duration: 4, repeat: Infinity, delay: 1 }}
         >
           春
         </motion.div>
+        <motion.div
+          className="absolute top-1/2 right-8 text-7xl text-yellow-400/15 font-bold"
+          animate={{ rotate: [0, 3, -3, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 6, repeat: Infinity, delay: 1.5 }}
+        >
+          喜
+        </motion.div>
+
       </div>
+
+      <FallingBlossoms />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md z-10"
+        className="w-full max-w-lg z-10"
       >
         <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8 border-4 border-yellow-400 relative">
           {/* Header */}
@@ -111,7 +139,7 @@ const AdminLoginPage = () => {
               transition={{ delay: 0.3 }}
               className="text-4xl font-bold bg-gradient-to-r from-red-600 to-yellow-600 bg-clip-text text-transparent mb-2 pb-1"
             >
-              Cổng Quản Trị
+              Đăng Nhập Admin
             </motion.h1>
             <p className="text-gray-600 font-semibold">Quản lý Lì Xì Tết 🧧</p>
           </div>

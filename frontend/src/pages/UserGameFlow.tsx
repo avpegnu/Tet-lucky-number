@@ -9,6 +9,7 @@ import { DrawScreen } from "../components/lucky-money/DrawScreen";
 import { BankInfoScreen } from "../components/lucky-money/BankInfoScreen";
 import { ThankYouScreen } from "../components/lucky-money/ThankYouScreen";
 import { FloatingLanterns } from "../components/shared/FloatingLanterns";
+import { FallingBlossoms } from "../components/shared/FallingBlossoms";
 
 interface GreetingConfig {
   role: string;
@@ -25,7 +26,11 @@ interface UserStatus {
   name?: string | null;
   luckyMoneyStatus: string;
   wonAmount: number;
-  bankInfo: { bankName: string; accountNumber: string } | null;
+  bankInfo: {
+    bankName: string;
+    accountNumber: string;
+    accountName?: string | null;
+  } | null;
   availableAmounts?: number[];
 }
 
@@ -38,7 +43,11 @@ const UserGameFlow = () => {
   >("greeting");
   const [isDrawing, setIsDrawing] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [bankForm, setBankForm] = useState({ bankName: "", accountNumber: "" });
+  const [bankForm, setBankForm] = useState({
+    bankName: "",
+    accountNumber: "",
+    accountName: "",
+  });
 
   useEffect(() => {
     loadData();
@@ -131,6 +140,7 @@ const UserGameFlow = () => {
     <div className="min-h-screen relative overflow-hidden" style={themeStyle}>
       {/* Decorative Elements - Floating Lanterns */}
       <FloatingLanterns />
+      <FallingBlossoms />
 
       {/* Logout button */}
       <div className="absolute top-4 right-4 z-10">

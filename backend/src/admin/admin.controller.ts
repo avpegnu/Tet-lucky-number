@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -44,9 +45,22 @@ export class AdminController {
   }
 
   @Get('users')
-  async getUsers(@Request() req: { user: AuthUser }) {
+  async getUsers(
+    @Request() req: { user: AuthUser },
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Query('search') search?: string,
+    @Query('role') role?: string,
+    @Query('status') status?: string,
+  ) {
     const adminId = req.user.userId;
-    return this.adminService.getUsersByAdmin(adminId);
+    return this.adminService.getUsersByAdmin(adminId, {
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+      search: search || undefined,
+      role: role || undefined,
+      status: status || undefined,
+    });
   }
 
   @Get('users/:id')
@@ -65,5 +79,23 @@ export class AdminController {
   ) {
     const adminId = req.user.userId;
     return this.adminService.deleteUser(adminId, userId);
+  }
+
+  @Post('users/:id/reset')
+  async resetUser(
+    @Request() req: { user: AuthUser },
+    @Param('id') userId: string,
+  ) {
+    const adminId = req.user.userId;
+    return this.adminService.resetUserStatus(adminId, userId);
+  }
+
+  @Post('users/:id/toggle-transferred')
+  async toggleTransferred(
+    @Request() req: { user: AuthUser },
+    @Param('id') userId: string,
+  ) {
+    const adminId = req.user.userId;
+    return this.adminService.toggleTransferred(adminId, userId);
   }
 }
