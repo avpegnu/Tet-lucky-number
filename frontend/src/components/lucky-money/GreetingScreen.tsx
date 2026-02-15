@@ -127,7 +127,7 @@ export const GreetingScreen = ({ config, onNext }: GreetingScreenProps) => (
       className="relative bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-red-700 font-bold text-lg sm:text-xl lg:text-2xl px-8 sm:px-12 lg:px-16 py-3 sm:py-4 lg:py-5 rounded-full shadow-2xl hover:shadow-3xl transition-all overflow-hidden group"
     >
       <span className="relative z-10 flex items-center gap-3">
-        🎁 Nhận Lì Xì Ngay 🎁
+        🧧 Nhận Lì Xì Ngay 🧧
       </span>
 
       {/* Button shine effect */}

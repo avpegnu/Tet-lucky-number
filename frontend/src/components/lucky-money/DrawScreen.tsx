@@ -33,7 +33,7 @@ export const DrawScreen = ({
             animate={{ y: 0, opacity: 1 }}
             className="text-2xl sm:text-3xl lg:text-4xl text-white font-bold mb-4 drop-shadow-lg px-4"
           >
-            Chọn phong bì may mắn của bạn 🏮
+            Chọn lì xì may mắn của bạn 🏮
           </motion.h2>
           <p className="text-white text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 drop-shadow px-4">
             {availableAmounts.length} lì xì đang chờ bạn!
@@ -99,7 +99,7 @@ export const DrawScreen = ({
             transition={{ delay: availableAmounts.length * 0.1 + 0.5 }}
             className="text-white text-base sm:text-lg mt-8 sm:mt-12 drop-shadow animate-pulse px-4"
           >
-            ✨ Nhấn vào một phong bì để mở nhận lì xì! ✨
+            ✨ Chọn một lì xì may mắn để mở ! ✨
           </motion.p>
         </motion.div>
       )}
@@ -117,7 +117,7 @@ export const DrawScreen = ({
             <div className="text-6xl sm:text-8xl">🧧</div>
           </motion.div>
           <p className="text-white text-lg sm:text-2xl mt-6 sm:mt-8 font-semibold drop-shadow-lg animate-pulse">
-            Đang mở phong bì...
+            Đang mở lì xì...
           </p>
         </motion.div>
       )}
@@ -181,10 +181,10 @@ export const DrawScreen = ({
                   i % 4 === 0
                     ? "bg-yellow-400"
                     : i % 4 === 1
-                    ? "bg-red-500"
-                    : i % 4 === 2
-                    ? "bg-yellow-500"
-                    : "bg-red-600"
+                      ? "bg-red-500"
+                      : i % 4 === 2
+                        ? "bg-yellow-500"
+                        : "bg-red-600"
                 } ${i % 3 === 0 ? "rounded-full" : ""}`}
                 style={{
                   width: i % 3 === 0 ? "12px" : "8px",

@@ -85,7 +85,7 @@ export const ThankYouScreen = ({
           transition={{ delay: 0.5 }}
           className="text-base sm:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8"
         >
-          ✅ Thông tin của bạn đã được gửi thành công
+          🎊 Thông tin của bạn đã được gửi thành công
         </motion.p>
 
         <motion.div
@@ -96,7 +96,7 @@ export const ThankYouScreen = ({
         >
           <div>
             <p className="text-xs sm:text-sm text-gray-600 mb-2 font-semibold">
-              💰 Số tiền nhận được
+              💰 Lì xì của bạn
             </p>
             <motion.p
               animate={{
@@ -136,7 +136,7 @@ export const ThankYouScreen = ({
           className="mt-6 sm:mt-8 bg-gradient-to-r from-red-100 to-yellow-100 rounded-xl p-3 sm:p-4"
         >
           <p className="text-gray-700 font-semibold text-base sm:text-lg">
-            🎁 Admin sẽ chuyển tiền cho bạn sớm nhất!
+            🧧 Admin sẽ gửi lì xì cho bạn sớm!
           </p>
           <p className="text-gray-600 text-sm sm:text-base mt-1 sm:mt-2">
             Chúc bạn năm mới vui vẻ, an khang thịnh vượng! 🧧

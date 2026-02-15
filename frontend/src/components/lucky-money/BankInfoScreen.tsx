@@ -86,7 +86,7 @@ export const BankInfoScreen = ({
             {wonAmount.toLocaleString("vi-VN")} đ
           </motion.p>
           <p className="text-gray-600 text-sm sm:text-base mt-2 sm:mt-3 px-4">
-            Vui lòng nhập thông tin để nhận tiền
+            Vui lòng nhập thông tin để nhận lì xì 🏦
           </p>
         </div>
 
