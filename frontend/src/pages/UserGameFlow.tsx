@@ -31,7 +31,7 @@ interface UserStatus {
     accountNumber: string;
     accountName?: string | null;
   } | null;
-  availableAmounts?: number[];
+  totalEnvelopes?: number;
 }
 
 const UserGameFlow = () => {
@@ -166,7 +166,7 @@ const UserGameFlow = () => {
             isDrawing={isDrawing}
             showConfetti={showConfetti}
             wonAmount={status.wonAmount}
-            availableAmounts={status.availableAmounts || []}
+            totalEnvelopes={status.totalEnvelopes || 0}
             onDraw={handleDraw}
           />
         )}

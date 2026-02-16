@@ -6,7 +6,7 @@ interface DrawScreenProps {
   isDrawing: boolean;
   showConfetti: boolean;
   wonAmount: number;
-  availableAmounts: number[];
+  totalEnvelopes: number;
   onDraw: () => void;
 }
 
@@ -14,7 +14,7 @@ export const DrawScreen = ({
   isDrawing,
   showConfetti,
   wonAmount,
-  availableAmounts,
+  totalEnvelopes,
   onDraw,
 }: DrawScreenProps) => {
   const confettiPositions = useMemo(() => generateConfettiPositions(50), []);
@@ -36,11 +36,11 @@ export const DrawScreen = ({
             Chọn lì xì may mắn của bạn 🏮
           </motion.h2>
           <p className="text-white text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 drop-shadow px-4">
-            {availableAmounts.length} lì xì đang chờ bạn!
+            {totalEnvelopes} lì xì đang chờ bạn!
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 justify-items-center px-4">
-            {availableAmounts.map((_amount: number, index: number) => (
+            {Array.from({ length: totalEnvelopes }).map((_, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0, rotate: -180 }}
@@ -96,7 +96,7 @@ export const DrawScreen = ({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: availableAmounts.length * 0.1 + 0.5 }}
+            transition={{ delay: totalEnvelopes * 0.1 + 0.5 }}
             className="text-white text-base sm:text-lg mt-8 sm:mt-12 drop-shadow animate-pulse px-4"
           >
             ✨ Chọn một lì xì may mắn để mở ! ✨

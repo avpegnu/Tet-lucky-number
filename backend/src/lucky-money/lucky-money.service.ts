@@ -155,7 +155,7 @@ export class LuckyMoneyService {
       luckyMoneyStatus: user.luckyMoneyStatus,
       wonAmount: user.wonAmount,
       bankInfo: user.bankInfo,
-      availableAmounts: user.availableAmounts,
+      totalEnvelopes: user.availableAmounts.length,
       customGreeting: user.customGreeting,
     };
   }
